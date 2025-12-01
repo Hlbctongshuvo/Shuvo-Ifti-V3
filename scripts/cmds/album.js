@@ -25,41 +25,24 @@ module.exports = {
   },
 
   onStart: async function ({ api, event, usersData, args }) {     
-    const apiUrl = await baseApiUrl();
+     const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);  if (module.exports.config.author !== obfuscatedAuthor) { return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID); }
+     const apiUrl = await baseApiUrl();
 
-    if (args[0] === "add") {
-      if (!args[1]) {
-        return api.sendMessage("❌ Please specify a category. Usage: !a add [category]", event.threadID, event.messageID);
-      }
-
-      const category = args[1].toLowerCase();
-
-      if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+      if (args[0] === "add") {
+        if (!args[1]) {
+        return api.sendMessage("❌ Please specify a category. Usage: !a add [category]", event.threadID, event.messageID);   }
+        const category = args[1].toLowerCase(); if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
         const attachment = event.messageReply.attachments[0];
-        
         if (attachment.type !== "video") {
-          return api.sendMessage("❌ Only video attachments are allowed.", event.threadID, event.messageID);
-        }
+        return api.sendMessage("❌ Only video attachments are allowed.", event.threadID, event.messageID);
+     }
 
-        try {
-          const response = await axios.post(
-            "https://api.imgur.com/3/image",
-            {
-              image: attachment.url,
-              type: "url"
-            },
-            {
-              headers: {
-                Authorization: "Client-ID 137256035dcfdcc"
-              }
-            }
-          );
-
-          const imgurLink = response.data?.data?.link;
-          if (!imgurLink) throw new Error("Imgur upload failed");
-
-          try {
-            const uploadResponse = await axios.post(`${apiUrl}/api/album/add`, {
+       try {
+        const response = await axios.post("https://api.imgur.com/3/image", {image: attachment.url,type: "url"  },  {headers: {
+        Authorization: "Client-ID 137256035dcfdcc"} }   );
+        const imgurLink = response.data?.data?.link;
+        if (!imgurLink) throw new Error("Imgur upload failed");  try {
+        const uploadResponse = await axios.post(`${apiUrl}/api/album/add`, {
               category,
               videoUrl: imgurLink,
             });
