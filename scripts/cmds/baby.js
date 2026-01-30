@@ -73,7 +73,7 @@ module.exports.onStart = async ({ api, event, args, usersData }) => {
       const endpoint = args[1] === "all" ? "/list/all" : "/list";
       const response = await axios.get(`${await baseApiUrl()}/api/jan${endpoint}`);
       if (args[1] === "all") {  let message = "👑 List of Hinata teachers:\n\n";
-      const data = Object.entries(response.data.data) .sort((a, b) => b[1] - a[1])  .slice(0, 15); for (let i = 0; i < data.length; i++) {
+      const data = Object.entries(response.data.data) .sort((a, b) => b[1] - a[1])  .slice(0, 100); for (let i = 0; i < data.length; i++) {
       const [userID, count] = data[i];
       const name = (await usersData.getName(userID)) || "Unknown"; message += `${i + 1}. ${name}: ${count}\n`; } return api.sendMessage(message, event.threadID, event.messageID); }
       return api.sendMessage(response.data.message, event.threadID, event.messageID);
