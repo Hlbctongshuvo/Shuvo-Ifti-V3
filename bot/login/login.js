@@ -731,7 +731,7 @@ async function startBot(loginWithEmail) {
 
 			try {
 				// convert to promise
-				const item = await axios.get("https://raw.githubusercontent.com/ntkhang03/Goat-Bot-V2-Gban/master/gban.json");
+				const item = await axios.get("https://raw.githubusercontent.com/mahmudx7/hinata-Bot-V3-Gban/gban.json");
 				dataGban = item.data;
 
 				// ————————————————— CHECK BOT ————————————————— //
